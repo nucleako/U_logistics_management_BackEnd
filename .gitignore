@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 logs/
 npm-debug.log
 yarn-error.log
@@ -13,3 +14,23 @@ run/
 *.un~
 typings/
 .nyc_output/
+=======
+# Build and Release Folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# Other files and folders
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+>>>>>>> 4f1d2f691efc8d3ca057e28e52fc5dc3a504270e
