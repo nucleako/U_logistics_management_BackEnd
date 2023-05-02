@@ -3,62 +3,59 @@
 const { Controller } = require('egg');
 
 /**
- * @Controller ListController:订单列表模块
+ * @Controller TransController:运单列表模块
  * @apikey
  */
-class ListController extends Controller {
+class TransController extends Controller {
 
   /**
-   * @Router get /list/findAll
-   * @Summary 查询所有订单信息
+   * @Router get /trans/findAll
+   * @Summary 查询所有运单信息
    * @apikey
    */
   async findAll() {
     const { ctx } = this;//context可以获取请求对象、响应对象
-    // ctx.body = 'list config successed';//响应体数据=》自动转json
+    // ctx.body = 'trans config successed';//响应体数据=》自动转json
     // console.log(ctx.request.query);
-    const data = await ctx.service.list.findAll();//promise
-    // console.log(data);
+    const data = await ctx.service.trans.findAll();//promise
     ctx.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
-   * @Router get /list/findListById
+   * @Router get /trans/findTransById
    * @Summary 依据某条信息查询
    * @Description 任意信息皆可、仅返回一条内容
    * @Request query number id
    * @apikey   
    */
-  async findListById(){
+  async findTransById(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.list.findListById(ctx.query);//promise
-  //   this.ctx.validate({
-  //     name: { type : 'String' }
-  // })
+    const data = await ctx.service.trans.findTransById(ctx.query);//promise
     ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
-   * @Router post /list/saveOrUpdateList
-   * @Summary 新增或删除
-   * @Description 修改某一项数据
+   * @Router post /trans/saveOrUpdateTrans
+   * @Summary 新增或修改
+   * @Description 新增或修改一项数据
+   * @request query string data 请求参数
    * @apikey
    */
-  async saveOrUpdateList(){
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    ctx.validate({
-      name: { type : 'string' }
-    })
-    console.log(ctx.request.body);
-    const data = await ctx.service.list.saveOrUpdateList(ctx.request.body);//promise
+  async saveOrUpdateTrans(){
+    const { ctx } = this;
+    const { id, ...rest } = ctx.request.body;
+    console.log( ctx.request.body);
+    // 根据请求中是否带有 id 判断是新增还是修改操作
+    let data = await ctx.service.trans.saveOrUpdateTrans({ id, ...rest });
+  
     ctx.body={state:200,message:'success',data,time:new Date().getTime()};
   }
   
   /**
-  * @tags 订单管理
-  * @Router get /list/pageQuery
-  * @Summary 分页查询订单数据
-  * @description 查询订单列表接口，支持分页和筛选条件
+  * @tags 运单管理
+  * @Router get /trans/pageQuery
+  * @Summary 分页查询运单数据
+  * @description 查询运单列表接口，支持分页和筛选条件
   * @request query integer page 页码，默认为1
   * @request query integer pageSize 每页显示数量，默认为10
   * @param number page.query - 当前页数
@@ -70,21 +67,21 @@ class ListController extends Controller {
     const { ctx } = this;
     const page = parseInt(ctx.query.page) || 1;
     const pageSize = parseInt(ctx.query.pageSize) || 10;
-    const data = await ctx.service.list.pageQuery(page, pageSize);
+    const data = await ctx.service.trans.pageQuery(page, pageSize);
     ctx.response.body = { state: 200, message: 'success', data, time: new Date().getTime() };
   }
 
   /**
-   * @Router delete /list/deleteList
+   * @Router delete /trans/deleteTrans
    * @Summary 删除！
    * @Description 修改所有数据！！！
    */
-  async deleteList(){
+  async deleteTrans(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.list.deleteList(ctx.query);//promise
+    const data = await ctx.service.trans.deleteTrans(ctx.query);//promise
     console.log(ctx.query);
     ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 }
 
-module.exports = ListController;
+module.exports = TransController;

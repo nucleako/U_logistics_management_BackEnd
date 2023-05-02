@@ -18,7 +18,13 @@ module.exports = app => {
   router.get('/list/findListById',jwt, controller.list.findListById);
   router.get('/list/pageQuery',controller.list.pageQuery);
   router.post('/list/saveOrUpdateList',jwt, controller.list.saveOrUpdateList);
-  // router.delete('/list/deleteList', controller.list.deleteList);
+  router.delete('/list/deleteList', controller.list.deleteList);
+  
+  router.get('/trans/findAll', controller.trans.findAll);
+  router.get('/trans/findTransById',jwt, controller.trans.findTransById);
+  router.get('/trans/pageQuery',controller.trans.pageQuery);
+  router.post('/trans/saveOrUpdateTrans',jwt, controller.trans.saveOrUpdateTrans);
+  router.delete('/trans/deleteTrans', controller.trans.deleteTrans);
   
   router.get('/stock/findAll',jwt, controller.stock.findAll);
   router.get('/stock/findStockById', controller.list.findListById);
