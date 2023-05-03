@@ -14,6 +14,24 @@ module.exports = app => {
   router.post('/user/saveOrUpdate',jwt, controller.user.saveOrUpdate);
   router.delete('/user/deleteById/:id',jwt, controller.user.deleteById);
   
+  router.get('/customer/findAll', controller.customer.findAll);
+  router.get('/customer/findCustomerById',controller.customer.findCustomerById);
+  router.get('/customer/pageQuery',controller.customer.pageQuery);
+  router.post('/customer/saveOrUpdate',jwt, controller.customer.saveOrUpdate);
+  router.delete('/customer/deleteById/:id',jwt, controller.customer.deleteById);
+
+  router.get('/bill/findAll', controller.bill.findAll);
+  router.get('/bill/findBillById',controller.bill.findBillById);
+  router.get('/bill/pageQuery',controller.bill.pageQuery);
+  router.post('/bill/saveOrUpdate',jwt, controller.bill.saveOrUpdate);
+  router.delete('/bill/deleteById/:id',jwt, controller.bill.deleteById);
+
+  router.get('/carrier/findAll', controller.carrier.findAll);
+  router.get('/carrier/findCarrierById',controller.carrier.findCarrierById);
+  router.get('/carrier/pageQuery',controller.carrier.pageQuery);
+  router.post('/carrier/saveOrUpdate',jwt, controller.carrier.saveOrUpdate);
+  router.delete('/carrier/deleteById/:id',jwt, controller.carrier.deleteById);
+
   router.get('/list/findAll', controller.list.findAll);
   router.get('/list/findListById',jwt, controller.list.findListById);
   router.get('/list/pageQuery',controller.list.pageQuery);

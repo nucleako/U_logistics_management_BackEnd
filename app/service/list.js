@@ -55,12 +55,11 @@ class ListService extends Service{
         return { list: res, total: count, page, pageSize };
     }
 
-
-    async deleteList(data){
-        const res={}//= await this.app.mysql.delete('base_list', data);//极其危险、删掉了整个数据库
-        console.log(data+'11111');
-        return res;
-    }
+    
+    async deleteTrans(id) {
+        const result = await this.app.mysql.delete('base_list', { id });
+        return result;
+      }
 }
 
 module.exports = ListService;

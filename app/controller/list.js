@@ -78,13 +78,15 @@ class ListController extends Controller {
    * @Router delete /list/deleteList
    * @Summary 删除！
    * @Description 修改所有数据！！！
+   * @Request query number id
    */
   async deleteList(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.list.deleteList(ctx.query);//promise
+    const data = await ctx.service.list.deleteList(ctx.query.id);//promise
     console.log(ctx.query);
     ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
+
 }
 
 module.exports = ListController;

@@ -18,16 +18,25 @@ class TransService extends Service{
         return res
     }
     
-    async saveOrUpdateTrans(data) {
-        let res;
+    // async saveOrUpdateTrans(data) {
+    //     let res;
+    //     if (data.id) {
+    //       res = await this.app.mysql.update('base_trans', data);
+    //     } else {
+    //       res = await this.app.mysql.insert('base_trans', data);
+    //     }
+    //     return res;
+    //   }
+      async saveOrUpdateTrans(data) {
         if (data.id) {
-          res = await this.app.mysql.update('base_trans', data);
+          const options = { where: { id: data.id } };
+          const result = await this.app.mysql.update('trans', data, options);
+          return result;
         } else {
-          res = await this.app.mysql.insert('base_trans', data);
+          const result = await this.app.mysql.insert('trans', data);
+          return result;
         }
-        return res;
       }
-    
     async pageQuery(page, pageSize) {
         const count = await this.app.mysql.count('base_trans');//获取总数
         const offset = (page - 1) * pageSize;//偏移量
@@ -40,11 +49,11 @@ class TransService extends Service{
         return { list, total: count, page, pageSize };
       }
 
-    async deletetrans(data){
-        const res={}//= await this.app.mysql.delete('base_trans', data);//极其危险、删掉了整个数据库
-        console.log(data+'11111');
-        return res;
-    }
+
+    async deleteTrans(id) {
+        const result = await this.app.mysql.delete('base_trans', { id });
+        return result;
+      }
 }
 
 module.exports = TransService;

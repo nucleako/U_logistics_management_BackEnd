@@ -74,11 +74,12 @@ class TransController extends Controller {
   /**
    * @Router delete /trans/deleteTrans
    * @Summary 删除！
-   * @Description 修改所有数据！！！
+   * @Description 删除所有数据！！！
+   * @Request query number id
    */
   async deleteTrans(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.trans.deleteTrans(ctx.query);//promise
+    const data = await ctx.service.trans.deleteTrans(ctx.query.id);//promise
     console.log(ctx.query);
     ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
