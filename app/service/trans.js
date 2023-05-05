@@ -40,7 +40,7 @@ class TransService extends Service{
     async pageQuery(page, pageSize) {
         const count = await this.app.mysql.count('base_trans');//获取总数
         const offset = (page - 1) * pageSize;//偏移量
-        const list = await app.mysql.select('base_trans', {
+        const list = await this.app.mysql.select('base_trans', {
           where: {}, // 写其他查询的条件，此处不可进行模糊查询
           orders: [['id', 'asc']], // 排序方式 desc 表示降序排序 asc表示升序排序
           limit: pageSize, // 返回数据量
