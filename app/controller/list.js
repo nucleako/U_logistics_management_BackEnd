@@ -19,7 +19,7 @@ class ListController extends Controller {
     // console.log(ctx.request.query);
     const data = await ctx.service.list.findAll();//promise
     // console.log(data);
-    ctx.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
@@ -35,7 +35,7 @@ class ListController extends Controller {
   //   this.ctx.validate({
   //     name: { type : 'String' }
   // })
-    ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
@@ -51,7 +51,7 @@ class ListController extends Controller {
     })
     console.log(ctx.request.body);
     const data = await ctx.service.list.saveOrUpdateList(ctx.request.body);//promise
-    ctx.body={state:200,message:'success',data,time:new Date().getTime()};
+    ctx.body={code:200,message:'success',data,time:new Date().getTime()};
   }
   
   /**
@@ -71,7 +71,7 @@ class ListController extends Controller {
     const page = parseInt(ctx.query.page) || 1;
     const pageSize = parseInt(ctx.query.pageSize) || 10;
     const data = await ctx.service.list.pageQuery(page, pageSize);
-    ctx.response.body = { state: 200, message: 'success', data, time: new Date().getTime() };
+    ctx.response.body = { code: 200, message: 'success', data, time: new Date().getTime() };
   }
 
   /**
@@ -84,7 +84,7 @@ class ListController extends Controller {
     const { ctx } = this;//context可以获取请求对象、响应对象
     const data = await ctx.service.list.deleteList(ctx.query.id);//promise
     console.log(ctx.query);
-    ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
 }

@@ -18,7 +18,7 @@ class TransController extends Controller {
     // ctx.body = 'trans config successed';//响应体数据=》自动转json
     // console.log(ctx.request.query);
     const data = await ctx.service.trans.findAll();//promise
-    ctx.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
@@ -31,7 +31,7 @@ class TransController extends Controller {
   async findTransById(){
     const { ctx } = this;//context可以获取请求对象、响应对象
     const data = await ctx.service.trans.findTransById(ctx.query);//promise
-    ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
@@ -48,7 +48,7 @@ class TransController extends Controller {
     // 根据请求中是否带有 id 判断是新增还是修改操作
     let data = await ctx.service.trans.saveOrUpdateTrans({ id, ...rest });
   
-    ctx.body={state:200,message:'success',data,time:new Date().getTime()};
+    ctx.body={code:200,message:'success',data,time:new Date().getTime()};
   }
   
   /**
@@ -68,7 +68,7 @@ class TransController extends Controller {
     const page = parseInt(ctx.query.page) || 1;
     const pageSize = parseInt(ctx.query.pageSize) || 10;
     const data = await ctx.service.trans.pageQuery(page, pageSize);
-    ctx.response.body = { state: 200, message: 'success', data, time: new Date().getTime() };
+    ctx.response.body = { code: 200, message: 'success', data, time: new Date().getTime() };
   }
 
   /**
@@ -81,7 +81,7 @@ class TransController extends Controller {
     const { ctx } = this;//context可以获取请求对象、响应对象
     const data = await ctx.service.trans.deleteTrans(ctx.query.id);//promise
     console.log(ctx.query);
-    ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 }
 

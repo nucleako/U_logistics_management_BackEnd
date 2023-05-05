@@ -12,15 +12,22 @@ class UserController extends Controller {
    * @Router post /user/login
    * @Summary 登录接口
    * @Description 用户名密码
-   * @Request body login *body
+   * @Request body login  *body
    */
     async login(){
       const { ctx } = this;
       console.log(ctx.request.body);
       const data = await ctx.service.user.login(ctx.request.body);
-      ctx.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+      if (data == '用户名或密码错误') {
+        ctx.body = {code:401,message:'failed',data,time:new Date().getTime()};
+        ctx.status = 401;
+      }else{      
+        ctx.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+      }
     }  
 
+
+    
   /**
    * @Router get /user/findAll
    * @Summary 查询所有用户信息
@@ -32,7 +39,7 @@ class UserController extends Controller {
     // console.log(ctx.request.query);
     const data = await ctx.service.user.findAll();//promise
     // console.log(data);
-    ctx.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
@@ -45,7 +52,7 @@ class UserController extends Controller {
   async findUserById(){
     const { ctx } = this;
     const data = await ctx.service.user.findUserById(ctx.query);//promise
-    ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
@@ -65,13 +72,13 @@ class UserController extends Controller {
     const page = parseInt(ctx.query.page) || 1;
     const pageSize = parseInt(ctx.query.pageSize) || 10;
     const data = await ctx.service.user.pageQuery(page, pageSize);
-    ctx.response.body = { state: 200, message: 'success', data, time: new Date().getTime() };
+    ctx.response.body = { code: 200, message: 'success', data, time: new Date().getTime() };
   }
   // async pageQuery(){
   //   const { ctx } = this;
   //   const { page, pageSize } = ctx.query;
   //   const data = await ctx.service.user.pageQuery(page, pageSize);//promise
-  //   ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+  //   ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   // }
 
   /**
@@ -84,7 +91,7 @@ class UserController extends Controller {
   async saveOrUpdate(){
     const { ctx } = this;//context可以获取请求对象、响应对象
     const data = await ctx.service.user.saveOrUpdate(ctx.request.body);//promise
-    ctx.body={state:200,message:'success',data,time:new Date().getTime()};
+    ctx.body={code:200,message:'success',data,time:new Date().getTime()};
 
   }
 
@@ -105,9 +112,9 @@ class UserController extends Controller {
     const result = await ctx.service.user.deleteById(id);
     console.log(result);
     if (result && result.affectedRows !== 0) {
-      ctx.body = { state: 200, message: '删除成功', time: new Date().getTime() };
+      ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
     } else {
-      ctx.body = { state: 500, message: '删除失败', time: new Date().getTime() };
+      ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
     }
   }
 }

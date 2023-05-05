@@ -19,7 +19,7 @@ class StockController extends Controller {
     // console.log(ctx.request.query);
     const data = await ctx.service.stock.findAll();//promise
     // console.log(data);
-    ctx.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
@@ -33,7 +33,7 @@ class StockController extends Controller {
     const { ctx } = this;//context可以获取请求对象、响应对象
     const data = await ctx.service.stock.findStockById(ctx.query);//promise
     // console.log(ctx.query);
-    ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
@@ -49,7 +49,7 @@ class StockController extends Controller {
     })
     console.log(ctx.request.body);
     const data = await ctx.service.stock.saveOrUpdateStock(ctx.request.body);//promise
-    ctx.body={state:200,message:'success',data,time:new Date().getTime()};
+    ctx.body={code:200,message:'success',data,time:new Date().getTime()};
   }
   
   /**
@@ -61,7 +61,7 @@ class StockController extends Controller {
     const { ctx } = this;//context可以获取请求对象、响应对象
     const data = await ctx.service.stock.deleteStock(ctx.query);//promise
     console.log(ctx.query);
-    ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 }
 

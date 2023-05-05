@@ -19,7 +19,7 @@ class CustomerController extends Controller {
     // console.log(ctx.request.query);
     const data = await ctx.service.customer.findAll();//promise
     // console.log(data);
-    ctx.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
@@ -32,7 +32,7 @@ class CustomerController extends Controller {
   async findCustomerById(){
     const { ctx } = this;
     const data = await ctx.service.customer.findCustomerById(ctx.query);//promise
-    ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
@@ -52,13 +52,13 @@ class CustomerController extends Controller {
     const page = parseInt(ctx.query.page) || 1;
     const pageSize = parseInt(ctx.query.pageSize) || 10;
     const data = await ctx.service.customer.pageQuery(page, pageSize);
-    ctx.response.body = { state: 200, message: 'success', data, time: new Date().getTime() };
+    ctx.response.body = { code: 200, message: 'success', data, time: new Date().getTime() };
   }
   // async pageQuery(){
   //   const { ctx } = this;
   //   const { page, pageSize } = ctx.query;
   //   const data = await ctx.service.customer.pageQuery(page, pageSize);//promise
-  //   ctx.response.body = {state:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+  //   ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   // }
 
   /**
@@ -71,7 +71,7 @@ class CustomerController extends Controller {
   async saveOrUpdate(){
     const { ctx } = this;//context可以获取请求对象、响应对象
     const data = await ctx.service.customer.saveOrUpdate(ctx.request.body);//promise
-    ctx.body={state:200,message:'success',data,time:new Date().getTime()};
+    ctx.body={code:200,message:'success',data,time:new Date().getTime()};
 
   }
 
@@ -91,9 +91,9 @@ class CustomerController extends Controller {
     const result = await ctx.service.customer.deleteById(id);
     console.log(result);
     if (result && result.affectedRows !== 0) {
-      ctx.body = { state: 200, message: '删除成功', time: new Date().getTime() };
+      ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
     } else {
-      ctx.body = { state: 500, message: '删除失败', time: new Date().getTime() };
+      ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
     }
   }
 }
