@@ -8,7 +8,7 @@ class UserService extends Service{
         const res = await this.app.mysql.get('base_user',data);//获取数据
 
         if (!res) {
-            return '用户名或密码错误'
+            return 
         }else{
             // 签发token
             const token = 'Bearer ' + this.app.jwt.sign(

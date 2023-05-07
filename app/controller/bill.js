@@ -31,7 +31,8 @@ class BillController extends Controller {
    */
   async findBillById(){
     const { ctx } = this;
-    const data = await ctx.service.bill.findBillById(ctx.query);//promise
+    const res = await ctx.service.bill.findBillById(ctx.query);//promise
+    var data =[res,0]
     ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 

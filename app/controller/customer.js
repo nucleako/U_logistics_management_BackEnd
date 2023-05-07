@@ -31,7 +31,8 @@ class CustomerController extends Controller {
    */
   async findCustomerById(){
     const { ctx } = this;
-    const data = await ctx.service.customer.findCustomerById(ctx.query);//promise
+    const res = await ctx.service.customer.findCustomerById(ctx.query);//promise
+    var data =[res,0]
     ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 

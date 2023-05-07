@@ -31,10 +31,8 @@ class ListController extends Controller {
    */
   async findListById(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.list.findListById(ctx.query);//promise
-  //   this.ctx.validate({
-  //     name: { type : 'String' }
-  // })
+    const res = await ctx.service.list.findListById(ctx.query);//promise
+    var data =[res,0]
     ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 

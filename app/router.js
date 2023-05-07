@@ -8,9 +8,10 @@ module.exports = app => {
 
   router.get('/', controller.home.index);
   router.post('/user/login', controller.user.login);
+  router.post('/user/logout', controller.user.logout);
   router.get('/user/findAll', controller.user.findAll);
-  router.get('/user/findUserById',controller.user.findUserById);
-  router.get('/user/pageQuery',controller.user.pageQuery);
+  router.get('/user/findUserById',jwt,controller.user.findUserById);
+  router.get('/user/pageQuery',jwt,controller.user.pageQuery);
   router.post('/user/saveOrUpdate',jwt, controller.user.saveOrUpdate);
   router.delete('/user/deleteById/:id',jwt, controller.user.deleteById);
   
