@@ -41,6 +41,33 @@ class ListService extends Service{
     }
     
     async saveOrUpdateList(data){
+        const { app } = this;
+        const mysql = app.mysql;
+        const conn = await mysql.beginTransaction(); // 开启事务
+
+        try {
+        // 新增或修改 base_list 表
+        let result = null;
+        if (data.id) {
+            // 如果 data 中包含 id，说明是修改操作
+            const { id, ...updateData } = data;
+            result = await conn.update('base_list', updateData, { id });
+        } else {
+            // 否则是新增操作
+            result = await conn.insert('base_list', data);
+            data.id = result.insertId; // 将自增 ID 赋值给 data.id
+        }
+
+        // 新增或修改 base_customer 表
+        await conn.update('base_customer', { ...data.sdCustomer }, { id: data.sdCustomer.id });
+        await conn.update('base_customer', { ...data.rcvCustomer }, { id: data.rcvCustomer.id });
+
+        await conn.commit(); // 提交事务
+        return { success: true };
+        } catch (err) {
+        await conn.rollback(); // 回滚事务
+        return { success: false, message: err.message };
+        }
         if (data.id) {
             var res = await this.app.mysql.update('base_list',data);//获取数据
         }else{

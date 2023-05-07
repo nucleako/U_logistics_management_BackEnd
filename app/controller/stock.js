@@ -38,8 +38,8 @@ class StockController extends Controller {
 
   /**
    * @Router post /stock/saveOrUpdateStock
-   * @Summary 新增或删除
-   * @Description 修改某一项数据
+   * @Summary 新增或修改
+   * @Description 新增一条数据或修改某一项已有数据
    * @apikey
    */
   async saveOrUpdateStock(){
