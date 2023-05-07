@@ -21,10 +21,23 @@ class ListService extends Service{
     }
 
     async findListById(query){//查询订单逻辑并返回数据
+        const { app } = this;
+        const result = await app.mysql.query(`
+          SELECT l.Id, l.OrderDate, l.OrderStatus, l.OrderPrice,
+              s.Name AS SdCustomerName, s.CompanyName AS SdCustomerCompanyName, s.Addr AS SdCustomerAddress,
+              r.Name AS RcvCustomerName, r.CompanyName AS RcvCustomerCompanyName, r.Addr AS RcvCustomerAddress
+          FROM base_list AS l
+          JOIN base_customer AS s ON l.SdCustomerID = s.Id
+          JOIN base_customer AS r ON l.RcvCustomerID = r.Id
+          WHERE l.Id = ?;
+        `, [query.id]);
+        return result[0];
         console.log(query);
 
         const res = await this.app.mysql.get('base_list',query);//获取数据
+        
         return res
+        
     }
     
     async saveOrUpdateList(data){
@@ -56,7 +69,7 @@ class ListService extends Service{
     }
 
     
-    async deleteTrans(id) {
+    async deleteList(id) {
         const result = await this.app.mysql.delete('base_list', { id });
         return result;
       }

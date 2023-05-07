@@ -18,8 +18,8 @@ class ListController extends Controller {
     // ctx.body = 'list config successed';//响应体数据=》自动转json
     // console.log(ctx.request.query);
     const data = await ctx.service.list.findAll();//promise
-    // console.log(data);
-    ctx.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+
+    ctx.body = {message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
   }
 
   /**
@@ -32,8 +32,13 @@ class ListController extends Controller {
   async findListById(){
     const { ctx } = this;//context可以获取请求对象、响应对象
     const res = await ctx.service.list.findListById(ctx.query);//promise
-    var data =[res,0]
-    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    if (!res) {
+      ctx.body = {code:404,message:'No related information was found.',res,time:new Date().getTime()};
+      ctx.status = 404;
+    }else{      
+      var data =[res,]
+      ctx.response.body = {message:'success',data,time:new Date().getTime()};    
+    }
   }
 
   /**
@@ -44,12 +49,10 @@ class ListController extends Controller {
    */
   async saveOrUpdateList(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    ctx.validate({
-      name: { type : 'string' }
-    })
+
     console.log(ctx.request.body);
     const data = await ctx.service.list.saveOrUpdateList(ctx.request.body);//promise
-    ctx.body={code:200,message:'success',data,time:new Date().getTime()};
+    ctx.body={message:'success',data,time:new Date().getTime()};
   }
   
   /**
@@ -69,7 +72,12 @@ class ListController extends Controller {
     const page = parseInt(ctx.query.page) || 1;
     const pageSize = parseInt(ctx.query.pageSize) || 10;
     const data = await ctx.service.list.pageQuery(page, pageSize);
-    ctx.response.body = { code: 200, message: 'success', data, time: new Date().getTime() };
+    if (!data) {
+      ctx.body = { message:'No related information was found.',res,time:new Date().getTime()};
+      ctx.status = 404;
+    }else{      
+      ctx.response.body = { message: 'success', data, time: new Date().getTime() };
+    }
   }
 
   /**
@@ -80,11 +88,14 @@ class ListController extends Controller {
    */
   async deleteList(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.list.deleteList(ctx.query.id);//promise
-    console.log(ctx.query);
-    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    const result = await ctx.service.list.deleteList(ctx.query.id);//promise
+    if (result && result.affectedRows !== 0) {
+      ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
+    } else {
+      ctx.status = 500;
+      ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+    }
   }
-
 }
 
 module.exports = ListController;

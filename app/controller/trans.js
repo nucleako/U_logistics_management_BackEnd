@@ -31,8 +31,13 @@ class TransController extends Controller {
   async findTransById(){
     const { ctx } = this;//context可以获取请求对象、响应对象
     const res = await ctx.service.trans.findTransById(ctx.query);//promise
-    var data =[res,0]
-    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    if (!res) {
+      ctx.body = {code:404,message:'No related information was found.',res,time:new Date().getTime()};
+      ctx.status = 404;
+    }else{      
+      var data =[res,]
+      ctx.response.body = {message:'success',data,time:new Date().getTime()};    
+    }
   }
 
   /**
@@ -69,7 +74,12 @@ class TransController extends Controller {
     const page = parseInt(ctx.query.page) || 1;
     const pageSize = parseInt(ctx.query.pageSize) || 10;
     const data = await ctx.service.trans.pageQuery(page, pageSize);
-    ctx.response.body = { code: 200, message: 'success', data, time: new Date().getTime() };
+    if (!data) {
+      ctx.body = { message:'No related information was found.',res,time:new Date().getTime()};
+      ctx.status = 404;
+    }else{      
+      ctx.response.body = { message: 'success', data, time: new Date().getTime() };
+    }  
   }
 
   /**
@@ -80,10 +90,13 @@ class TransController extends Controller {
    */
   async deleteTrans(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.trans.deleteTrans(ctx.query.id);//promise
-    console.log(ctx.query);
-    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    const result = await ctx.service.trans.deleteTrans(ctx.query.id);//promise
+    if (result && result.affectedRows !== 0) {
+      ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
+    } else {
+      ctx.status = 500;
+      ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+    }
   }
 }
-
 module.exports = TransController;

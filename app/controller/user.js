@@ -64,8 +64,12 @@ class UserController extends Controller {
 	async findUserById(){
 	const { ctx } = this;
 	const data = await ctx.service.user.findUserById(ctx.query);//promise
-	ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
-	}
+    if (!data) {
+		ctx.body = {code:404,message:'No related information was found.',res,time:new Date().getTime()};
+		ctx.status = 404;
+	  }else{      
+		ctx.response.body = {message:'success',data,time:new Date().getTime()};    
+	  }	}
 
 	/**
 	 * @tags 用户管理
@@ -84,7 +88,12 @@ class UserController extends Controller {
 	const page = parseInt(ctx.query.page) || 1;
 	const pageSize = parseInt(ctx.query.pageSize) || 10;
 	const data = await ctx.service.user.pageQuery(page, pageSize);
-	ctx.response.body = { code: 200, message: 'success', data, time: new Date().getTime() };
+    if (!data) {
+		ctx.body = { message:'No related information was found.',res,time:new Date().getTime()};
+		ctx.status = 404;
+	  }else{      
+		ctx.response.body = { message: 'success', data, time: new Date().getTime() };
+	  }
 	}
 	// async pageQuery(){
 	//   const { ctx } = this;
@@ -122,7 +131,6 @@ class UserController extends Controller {
 	console.log(ctx.params);
 	// 调用 service 层的方法删除数据
 	const result = await ctx.service.user.deleteById(id);
-	console.log(result);
 	if (result && result.affectedRows !== 0) {
 		ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
 	} else {

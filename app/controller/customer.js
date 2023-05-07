@@ -32,8 +32,14 @@ class CustomerController extends Controller {
   async findCustomerById(){
     const { ctx } = this;
     const res = await ctx.service.customer.findCustomerById(ctx.query);//promise
-    var data =[res,0]
-    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+    var data =[res,]
+    if (!res) {
+      ctx.body = {code:404,message:'No related information was found.',res,time:new Date().getTime()};
+      ctx.status = 404;
+    }else{      
+      var data =[res,]
+      ctx.response.body = {message:'success',data,time:new Date().getTime()};    
+    }
   }
 
   /**
@@ -53,7 +59,12 @@ class CustomerController extends Controller {
     const page = parseInt(ctx.query.page) || 1;
     const pageSize = parseInt(ctx.query.pageSize) || 10;
     const data = await ctx.service.customer.pageQuery(page, pageSize);
-    ctx.response.body = { code: 200, message: 'success', data, time: new Date().getTime() };
+    if (!data) {
+      ctx.body = { message:'No related information was found.',res,time:new Date().getTime()};
+      ctx.status = 404;
+    }else{      
+      ctx.response.body = { message: 'success', data, time: new Date().getTime() };
+    }
   }
   // async pageQuery(){
   //   const { ctx } = this;
