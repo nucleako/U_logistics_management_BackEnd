@@ -47,7 +47,7 @@ class CustomerController extends Controller {
   * @Router get /customer/pageQuery
   * @Summary 分页查询客户数据
   * @description 查询客户列表接口，支持分页和筛选条件
-  *@request query integer page 页码，默认为1
+  * @request query integer page 页码，默认为1
   * @request query integer pageSize 每页显示数量，默认为10
   * @param number page.query - 当前页数
   * @param number pageSize.query - 每页显示的记录数
@@ -74,15 +74,20 @@ class CustomerController extends Controller {
   // }
 
   /**
-   * @Router post /customer/saveOrUpdateCustomer
+   * @Router post /customer/saveOrUpdate
    * @Summary 新增或修改
    * @Description 添加或修改某一客户数据
-   * @Request query string
+   * @Request query number id id
+   * @Request query string addr 地址
+   * @Request query string name  姓名
+   * @Request query number phone 电话号
+   * @Request query number gender 性别
+   * @Request query string CompanyName 位置信息
    * @apikey
    */
   async saveOrUpdate(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.customer.saveOrUpdate(ctx.request.body);//promise
+    const data = await ctx.service.customer.saveOrUpdate(ctx.query);//promise
     ctx.body={code:200,message:'success',data,time:new Date().getTime()};
 
   }

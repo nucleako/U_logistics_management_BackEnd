@@ -18,14 +18,14 @@ class CustomerService extends Service{
     }
 
     async saveOrUpdate(data){
-        console.log(data);
-        if (data.id) {
-            var res = await this.app.mysql.update('base_customer',data);//获取数据
-        }else{
-            var res = await this.app.mysql.insert('base_customer',data);//获取数据
-        }
-        return res;
-    }
+      const dataid = await this.app.mysql.get('base_customer',{id:data.id});//获取数据
+      if (dataid) {
+          var res = await this.app.mysql.update('base_customer',data);//获取数据
+      }else{
+          var res = await this.app.mysql.insert('base_customer',data);//获取数据
+      }
+      return res;
+  }
 
     // 分页查询用户数据
     async pageQuery(page, pageSize) {

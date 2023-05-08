@@ -59,6 +59,8 @@ class UserController extends Controller {
 	 * @Summary 依据某条信息查询
 	 * @Description 任意信息皆可、仅返回一条内容
 	 * @Request query number id
+	 * @Request query string roles
+	 * @Request query number gender
 	 * @apikey
 	 */
 	async findUserById(){
@@ -76,7 +78,7 @@ class UserController extends Controller {
 	 * @Router get /user/pageQuery
 	 * @Summary 分页查询用户数据
 	 * @description 查询用户列表接口，支持分页和筛选条件
-	 *@request query integer page 页码，默认为1
+	 * @request query integer page 页码，默认为1
 	 * @request query integer pageSize 每页显示数量，默认为10
 	 * @param number page.query - 当前页数
 	 * @param number pageSize.query - 每页显示的记录数
@@ -106,7 +108,15 @@ class UserController extends Controller {
 	 * @Router post /user/saveOrUpdateUser
 	 * @Summary 新增或修改
 	 * @Description 添加或修改某一用户数据
-	 * @Request query string
+	 * @Request query number id 用户id
+	 * @Request query string username 用户名 	 
+	 * @Request query string password 密码 	 
+	 * @Request query string realname  真实姓名
+	 * @Request query string roles 身份
+	 * @Request query string introduction 简介  
+ 	 * @Request query string avatar  头像信息
+	 * @Request query string gender 性别
+	 * @Request query number telephone 联系电话  
 	 * @apikey
 	 */
 	async saveOrUpdate(){

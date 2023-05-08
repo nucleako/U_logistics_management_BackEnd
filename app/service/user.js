@@ -40,8 +40,8 @@ class UserService extends Service{
     }
 
     async saveOrUpdate(data){
-        console.log(data);
-        if (data.id) {
+        const dataid = await this.app.mysql.get('base_user',{id:data.id});//获取数据
+        if (dataid) {
             var res = await this.app.mysql.update('base_user',data);//获取数据
         }else{
             var res = await this.app.mysql.insert('base_user',data);//获取数据

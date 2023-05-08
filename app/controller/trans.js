@@ -22,15 +22,17 @@ class TransController extends Controller {
   }
 
   /**
-   * @Router get /trans/findTransById
+   * @Router get /trans/findOneTrans
    * @Summary 依据某条信息查询
    * @Description 任意信息皆可、仅返回一条内容
    * @Request query number id
+   * @Request query number OrderID
+   * @Request query number CarrierId
    * @apikey   
    */
-  async findTransById(){
+  async findOneTrans(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const res = await ctx.service.trans.findTransById(ctx.query);//promise
+    const res = await ctx.service.trans.findOneTrans(ctx.query);//promise
     if (!res) {
       ctx.body = {code:404,message:'No related information was found.',res,time:new Date().getTime()};
       ctx.status = 404;
@@ -44,7 +46,20 @@ class TransController extends Controller {
    * @Router post /trans/saveOrUpdateTrans
    * @Summary 新增或修改
    * @Description 新增或修改一项数据
-   * @request query string data 请求参数
+   * @Request query number id 运单id
+   * @Request query number OrderID 订单id
+   * @Request query number CarrierId 承运商id
+   * @Request query string goodstype  货物类型
+   * @Request query number weight  货物重量
+   * @Request query string Origin 发货地
+   * @Request query string Destination 目的地  
+   * @Request query string SendName 发件人名  
+   * @Request query number SendPhone 发件人电话  
+   * @Request query string SendAddress 发件地址  
+   * @Request query string ReceiverName 收件人名  
+   * @Request query number ReceiverPhone 收件人电话  
+   * @Request query string ReceiverAddress 收件地址  
+   * @Request query string money 金额  
    * @apikey
    */
   async saveOrUpdateTrans(){

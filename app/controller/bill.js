@@ -46,7 +46,7 @@ class BillController extends Controller {
   * @Router get /bill/pageQuery
   * @Summary 分页查询对账单数据
   * @description 查询对账单列表接口，支持分页和筛选条件
-  *@request query integer page 页码，默认为1
+  * @request query integer page 页码，默认为1
   * @request query integer pageSize 每页显示数量，默认为10
   * @param number page.query - 当前页数
   * @param number pageSize.query - 每页显示的记录数
@@ -73,15 +73,19 @@ class BillController extends Controller {
   // }
 
   /**
-   * @Router post /bill/saveOrUpdateBill
+   * @Router post /bill/saveOrUpdate
    * @Summary 新增或修改
    * @Description 添加或修改某一对账单数据
-   * @Request query string
+   * @Request query number id id
+   * @Request query number OrderID 订单id
+   * @Request query string price  金额
+   * @Request query number state 订单状态
+   * @Request query string date 下单时间
    * @apikey
    */
   async saveOrUpdate(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.bill.saveOrUpdate(ctx.request.body);//promise
+    const data = await ctx.service.bill.saveOrUpdate(ctx.query);//promise
     ctx.body={code:200,message:'success',data,time:new Date().getTime()};
 
   }

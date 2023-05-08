@@ -76,7 +76,11 @@ class CarrierController extends Controller {
    * @Router post /carrier/saveOrUpdateCarrier
    * @Summary 新增或修改
    * @Description 添加或修改某一承运商数据
-   * @Request query string
+   * @Request query number id id
+   * @Request query string CarrierName 承运商
+   * @Request query string name  联系人姓名
+   * @Request query string phone 电话号
+   * @Request query string location 位置信息
    * @apikey
    */
   async saveOrUpdate(){
