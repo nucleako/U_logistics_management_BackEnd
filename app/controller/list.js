@@ -95,7 +95,7 @@ class ListController extends Controller {
   }
 
   /**
-   * @Router delete /list/deleteList
+   * @Router get /list/deleteList
    * @Summary 删除！
    * @Description 修改所有数据！！！
    * @Request query number id

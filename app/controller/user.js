@@ -105,7 +105,7 @@ class UserController extends Controller {
 	// }
 
 	/**
-	 * @Router post /user/saveOrUpdateUser
+	 * @Router post /user/saveOrUpdate
 	 * @Summary 新增或修改
 	 * @Description 添加或修改某一用户数据
 	 * @Request query number id 用户id
@@ -121,14 +121,14 @@ class UserController extends Controller {
 	 */
 	async saveOrUpdate(){
 	const { ctx } = this;//context可以获取请求对象、响应对象
-	const data = await ctx.service.user.saveOrUpdate(ctx.request.body);//promise
+	const data = await ctx.service.user.saveOrUpdate(ctx.query);//promise
 	ctx.body={code:200,message:'success',data,time:new Date().getTime()};
 
 	}
 
 
 	/**
-	 * @router delete /user/deleteById/{id}
+	 * @router get /user/deleteById/{id}
 	 * @summary 删除一条用户数据
 	 * @description 删除一条用户数据
 	 * @request path number *id 用户id

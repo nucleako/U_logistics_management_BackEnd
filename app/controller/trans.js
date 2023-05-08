@@ -64,11 +64,7 @@ class TransController extends Controller {
    */
   async saveOrUpdateTrans(){
     const { ctx } = this;
-    const { id, ...rest } = ctx.request.body;
-    console.log( ctx.request.body);
-    // 根据请求中是否带有 id 判断是新增还是修改操作
-    let data = await ctx.service.trans.saveOrUpdateTrans({ id, ...rest });
-  
+    let data = await ctx.service.trans.saveOrUpdateTrans(ctx.query);
     ctx.body={code:200,message:'success',data,time:new Date().getTime()};
   }
   
@@ -98,7 +94,7 @@ class TransController extends Controller {
   }
 
   /**
-   * @Router delete /trans/deleteTrans
+   * @Router get /trans/deleteTrans
    * @Summary 删除！
    * @Description 删除所有数据！！！
    * @Request query number id

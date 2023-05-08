@@ -92,7 +92,7 @@ class BillController extends Controller {
 
 
   /**
-     * @router delete /bill/deleteById/{id}
+     * @router get /bill/deleteById/{id}
      * @summary 删除一条对账单数据
      * @description 删除一条对账单数据
      * @request path number *id 对账单id

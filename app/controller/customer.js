@@ -94,7 +94,7 @@ class CustomerController extends Controller {
 
 
   /**
-     * @router delete /customer/deleteById/{id}
+     * @router get /customer/deleteById/{id}
      * @summary 删除一条客户数据
      * @description 删除一条客户数据
      * @request path number *id 客户id

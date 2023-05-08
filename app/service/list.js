@@ -95,7 +95,9 @@ class ListService extends Service{
         const listid = await this.app.mysql.get('base_list',{id:listObj.id});//获取数据
         const SDid = await this.app.mysql.get('base_customer',{id:SdObj.id});//获取数据
         const Rcvid = await this.app.mysql.get('base_customer',{id:RcvObj.id});//获取数据
-        if (SDid & Rcvid) {
+        if (SDid & Rcvid & listid) {
+            var res1 = await this.app.mysql.update('base_customer',SdObj);
+            var res2 = await this.app.mysql.update('base_customer',RcvObj);
             var res3 = await this.app.mysql.update('base_list',listObj);
         } else if ( Rcvid == null & SDid == null){
             var res2 = await this.app.mysql.insert('base_customer',RcvObj);
@@ -123,7 +125,7 @@ class ListService extends Service{
         //         return {Sddetail:res1.affectedRows,Rcvdetail:res2.affectedRows}
         //     }
         // }
-        return res3;   
+        return res3;
     }
     
     // 分页查询订单数据

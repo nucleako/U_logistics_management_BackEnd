@@ -73,7 +73,7 @@ class CarrierController extends Controller {
   // }
 
   /**
-   * @Router post /carrier/saveOrUpdateCarrier
+   * @Router post /carrier/saveOrUpdate
    * @Summary 新增或修改
    * @Description 添加或修改某一承运商数据
    * @Request query number id id
@@ -85,14 +85,14 @@ class CarrierController extends Controller {
    */
   async saveOrUpdate(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.carrier.saveOrUpdate(ctx.request.body);//promise
+    const data = await ctx.service.carrier.saveOrUpdate(ctx.query);//promise
     ctx.body={code:200,message:'success',data,time:new Date().getTime()};
 
   }
 
 
   /**
-     * @router delete /carrier/deleteById/{id}
+     * @router get /carrier/deleteById/{id}
      * @summary 删除一条承运商数据
      * @description 删除一条承运商数据
      * @request path number *id 承运商id
