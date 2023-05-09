@@ -34,7 +34,7 @@ module.exports = app => {
   router.get('/carrier/findCarrierById',controller.carrier.findCarrierById);
   router.get('/carrier/pageQuery',controller.carrier.pageQuery);
   router.post('/carrier/saveOrUpdate', controller.carrier.saveOrUpdate);
-  router.get('/carrier/deleteCarrier/:id', controller.carrier.deleteById);
+  router.get('/carrier/deleteCarrier/:id', controller.carrier.deleteCarrier);
   router.get('/carrier/deleteById', controller.carrier.deleteById);
 
   router.get('/list/findAll', controller.list.findAll);

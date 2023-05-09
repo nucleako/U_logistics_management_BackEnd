@@ -66,7 +66,13 @@ class ListController extends Controller {
   async saveOrUpdateList(){
     const { ctx } = this;//context可以获取请求对象、响应对象
     const data = await ctx.service.list.saveOrUpdateList(ctx.query);//promise
-    ctx.body={message:'success',data,time:new Date().getTime()};
+    
+    if (data.success == true) {
+      ctx.body={code:200,message:'success',data,time:new Date().getTime()};
+    } else {
+      ctx.body = {code:500,message:'saveOrUpdate Failed.',data,time:new Date().getTime()};
+      ctx.status = 500;
+    }
   }
   
   /**
@@ -97,7 +103,7 @@ class ListController extends Controller {
   /**
    * @Router get /list/deleteList
    * @Summary 删除！
-   * @Description 修改所有数据！！！
+   * @Description 删除一条数据
    * @Request query number id
    */
   async deleteList(){

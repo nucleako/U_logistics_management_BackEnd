@@ -120,11 +120,18 @@ class UserController extends Controller {
 	 * @apikey
 	 */
 	async saveOrUpdate(){
-	const { ctx } = this;//context可以获取请求对象、响应对象
-	const data = await ctx.service.user.saveOrUpdate(ctx.query);//promise
-	ctx.body={code:200,message:'success',data,time:new Date().getTime()};
+		const { ctx } = this;//context可以获取请求对象、响应对象
+		const data = await ctx.service.user.saveOrUpdate(ctx.query);//promise
+		ctx.body={code:200,message:'success',data,time:new Date().getTime()};
 
+		if (data && data.affectedRows !== 0) {
+			ctx.body={code:200,message:'success', data ,time:new Date().getTime()};
+		} else {
+			ctx.body = { code: 500, message: 'failed', data ,time: new Date().getTime() };
+			ctx.status = 500;
+		}
 	}
+
 
 
 	/**
@@ -151,7 +158,7 @@ class UserController extends Controller {
   /**
    * @Router get /user/deleteById
    * @Summary 删除！
-   * @Description 修改所有数据！！！
+   * @Description 删除一条数据
    * @Request query number id
    */
   async deleteById(){

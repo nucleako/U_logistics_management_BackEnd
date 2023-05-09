@@ -75,15 +75,15 @@ class ListService extends Service{
 
             // 更新或插入 base_customer 数据
             if (sdRow) {
-            await conn.update('base_customer', SdObj);
+                await conn.update('base_customer', SdObj);
             } else {
-            await conn.insert('base_customer', SdObj);
+                await conn.insert('base_customer', SdObj);
             }
 
             if (rcvRow) {
-            await conn.update('base_customer', RcvObj);
+                await conn.update('base_customer', RcvObj);
             } else {
-            await conn.insert('base_customer', RcvObj);
+                await conn.insert('base_customer', RcvObj);
             }
 
             // 检查是否存在 base_list 数据

@@ -88,8 +88,12 @@ class CustomerController extends Controller {
   async saveOrUpdate(){
     const { ctx } = this;//context可以获取请求对象、响应对象
     const data = await ctx.service.customer.saveOrUpdate(ctx.query);//promise
-    ctx.body={code:200,message:'success',data,time:new Date().getTime()};
-
+    
+    if (data && data.affectedRows !== 0) {
+      ctx.body={code:200,message:'success',time:new Date().getTime()};
+    } else {
+      ctx.body = { code: 500, message: 'failed', time: new Date().getTime() };
+    }
   }
 
 
@@ -117,7 +121,7 @@ class CustomerController extends Controller {
   /**
    * @Router get /customer/deleteById
    * @Summary 删除！
-   * @Description 修改所有数据！！！
+   * @Description 删除一条数据
    * @Request query number id
    */
       async deleteById(){
