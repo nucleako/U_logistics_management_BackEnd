@@ -92,26 +92,39 @@ class CarrierController extends Controller {
 
 
   /**
-     * @router get /carrier/deleteById/{id}
-     * @summary 删除一条承运商数据
+     * @router get /carrier/deleteCarrier/{id}
+     * @summary 删除一条承运商数据    ？无删除
      * @description 删除一条承运商数据
      * @request path number *id 承运商id
      * @apikey
      */
-  async deleteById() {
+  async deleteCarrier() {
     const { ctx } = this;
     const id = ctx.params.id;
-    console.log(11111111111);
-    console.log(ctx.params);
-    // 调用 service 层的方法删除数据
     const result = await ctx.service.carrier.deleteById(id);
-    console.log(result);
     if (result && result.affectedRows !== 0) {
       ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
     } else {
       ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
     }
   }
+
+    /**
+   * @Router get /carrier/deleteById
+   * @Summary 删除！
+   * @Description 修改所有数据！！！
+   * @Request query number id
+   */
+    async deleteById(){
+      const { ctx } = this;//context可以获取请求对象、响应对象
+      const result = await ctx.service.carrier.deleteById(ctx.query.id);//promise
+      if (result && result.affectedRows !== 0) {
+        ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
+      } else {
+        ctx.status = 500;
+        ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+      }
+    }
 }
 
 

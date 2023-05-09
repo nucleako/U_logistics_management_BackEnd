@@ -94,13 +94,13 @@ class CustomerController extends Controller {
 
 
   /**
-     * @router get /customer/deleteById/{id}
+     * @router get /customer/deleteCustomer/{id}
      * @summary 删除一条客户数据
      * @description 删除一条客户数据
      * @request path number *id 客户id
      * @apikey
      */
-  async deleteById() {
+  async deleteCustomer() {
     const { ctx } = this;
     const id = ctx.params.id;
     console.log(ctx.params);
@@ -113,6 +113,27 @@ class CustomerController extends Controller {
       ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
     }
   }
+
+  /**
+   * @Router get /customer/deleteById
+   * @Summary 删除！
+   * @Description 修改所有数据！！！
+   * @Request query number id
+   */
+      async deleteById(){
+        const { ctx } = this;//context可以获取请求对象、响应对象
+        const result = await ctx.service.customer.deleteById(ctx.query.id);//promise
+        console.log(result);
+        if (result == 1451) {
+          ctx.status = 500;
+          ctx.body = { code: 500, message: '删除失败,该项可能被订单表所引用，无法删除',result, time: new Date().getTime() };
+        } else if (result && result.affectedRows != 0) {
+          ctx.body = { code: 200, message: '删除成功',result, time: new Date().getTime() };
+        } else {
+          ctx.status = 500;
+          ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+        }
+      }
 }
 
 

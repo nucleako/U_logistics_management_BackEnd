@@ -92,19 +92,33 @@ class BillController extends Controller {
 
 
   /**
-     * @router get /bill/deleteById/{id}
+     * @router get /bill/deleteBill/{id}
      * @summary 删除一条对账单数据
      * @description 删除一条对账单数据
      * @request path number *id 对账单id
      * @apikey
      */
-  async deleteById() {
+  async deleteBill() {
     const { ctx } = this;
     const id = ctx.params.id;
-    console.log(ctx.params);
-    // 调用 service 层的方法删除数据
     const result = await ctx.service.bill.deleteById(id);
-    console.log(result);
+    if (result && result.affectedRows !== 0) {
+      ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
+    } else {
+      ctx.status = 500;
+      ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+    }
+  }
+  
+  /**
+   * @Router get /bill/deleteById
+   * @Summary 删除！
+   * @Description 修改所有数据！！！
+   * @Request query number id
+   */
+  async deleteById(){
+    const { ctx } = this;//context可以获取请求对象、响应对象
+    const result = await ctx.service.bill.deleteById(ctx.query.id);//promise
     if (result && result.affectedRows !== 0) {
       ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
     } else {

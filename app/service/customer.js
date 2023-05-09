@@ -48,7 +48,7 @@ class CustomerService extends Service{
           return result      
         } catch (err) {
           console.log(err);
-          return null;
+          return err.errno;
         }     
     }
 

@@ -13,25 +13,29 @@ module.exports = app => {
   router.get('/user/findUserById',controller.user.findUserById);
   router.get('/user/pageQuery',controller.user.pageQuery);
   router.post('/user/saveOrUpdate', controller.user.saveOrUpdate);
-  router.get('/user/deleteById/:id', controller.user.deleteById);
+  router.get('/user/deleteUser/:id', controller.user.deleteUser);
+  router.get('/user/deleteById', controller.user.deleteById);
   
   router.get('/customer/findAll', controller.customer.findAll);
   router.get('/customer/findCustomerById',controller.customer.findCustomerById);
   router.get('/customer/pageQuery',controller.customer.pageQuery);
   router.post('/customer/saveOrUpdate', controller.customer.saveOrUpdate);
-  router.get('/customer/deleteById/:id', controller.customer.deleteById);
+  router.get('/customer/deleteCustomer/:id', controller.customer.deleteCustomer);
+  router.get('/customer/deleteById', controller.customer.deleteById);
 
   router.get('/bill/findAll', controller.bill.findAll);
   router.get('/bill/findBillById',controller.bill.findBillById);
   router.get('/bill/pageQuery',controller.bill.pageQuery);
   router.post('/bill/saveOrUpdate', controller.bill.saveOrUpdate);
-  router.get('/bill/deleteById/:id', controller.bill.deleteById);
+  router.get('/bill/deleteBill/:id', controller.bill.deleteBill);
+  router.get('/bill/deleteById', controller.bill.deleteById);
 
   router.get('/carrier/findAll', controller.carrier.findAll);
   router.get('/carrier/findCarrierById',controller.carrier.findCarrierById);
   router.get('/carrier/pageQuery',controller.carrier.pageQuery);
   router.post('/carrier/saveOrUpdate', controller.carrier.saveOrUpdate);
-  router.get('/carrier/deleteById/:id', controller.carrier.deleteById);
+  router.get('/carrier/deleteCarrier/:id', controller.carrier.deleteById);
+  router.get('/carrier/deleteById', controller.carrier.deleteById);
 
   router.get('/list/findAll', controller.list.findAll);
   router.get('/list/findListById', controller.list.findListById);

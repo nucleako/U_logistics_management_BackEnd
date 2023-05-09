@@ -40,33 +40,6 @@ class ListService extends Service{
     }
     
     async saveOrUpdateList(data){
-        // const { app } = this;
-        // const mysql = app.mysql;
-        // const conn = await mysql.beginTransaction(); // 开启事务
-
-        // try {
-        // // 新增或修改 base_list 表
-        // let result = null;
-        // if (data.id) {
-        //     // 如果 data 中包含 id，说明是修改操作
-        //     const { id, ...updateData } = data;
-        //     result = await conn.update('base_list', updateData, { id });
-        // } else {
-        //     // 否则是新增操作
-        //     result = await conn.insert('base_list', data);
-        //     data.id = result.insertId; // 将自增 ID 赋值给 data.id
-        // }
-
-        // // 新增或修改 base_customer 表
-        // await conn.update('base_customer', { ...data.sdCustomer }, { id: data.sdCustomer.id });
-        // await conn.update('base_customer', { ...data.rcvCustomer }, { id: data.rcvCustomer.id });
-
-        // await conn.commit(); // 提交事务
-        // return { success: true };
-        // } catch (err) {
-        // await conn.rollback(); // 回滚事务
-        // return { success: false, message: err.message };
-        // }
         const listObj = {
             id:data.id,
             OrderPrice:data.OrderPrice,
@@ -92,40 +65,43 @@ class ListService extends Service{
             CompanyName:data.RcvCustomerCompanyName
         }
 
-        const listid = await this.app.mysql.get('base_list',{id:listObj.id});//获取数据
-        const SDid = await this.app.mysql.get('base_customer',{id:SdObj.id});//获取数据
-        const Rcvid = await this.app.mysql.get('base_customer',{id:RcvObj.id});//获取数据
-        if (SDid & Rcvid & listid) {
-            var res1 = await this.app.mysql.update('base_customer',SdObj);
-            var res2 = await this.app.mysql.update('base_customer',RcvObj);
-            var res3 = await this.app.mysql.update('base_list',listObj);
-        } else if ( Rcvid == null & SDid == null){
-            var res2 = await this.app.mysql.insert('base_customer',RcvObj);
-            var res1 = await this.app.mysql.insert('base_customer',SdObj);
-        } else if( SDid == null){
-            var res1 = await this.app.mysql.insert('base_customer',SdObj);
-        } else if( Rcvid == null){
-            var res2 = await this.app.mysql.insert('base_customer',RcvObj);
+        const conn = await this.app.mysql.beginTransaction(); // 开始事务
+        try {
+            // 检查是否存在 base_customer 数据
+            const [sdRow, rcvRow] = await Promise.all([
+            conn.get('base_customer', { id: SdObj.id }),
+            conn.get('base_customer', { id: RcvObj.id }),
+            ]);
+
+            // 更新或插入 base_customer 数据
+            if (sdRow) {
+            await conn.update('base_customer', SdObj);
+            } else {
+            await conn.insert('base_customer', SdObj);
+            }
+
+            if (rcvRow) {
+            await conn.update('base_customer', RcvObj);
+            } else {
+            await conn.insert('base_customer', RcvObj);
+            }
+
+            // 检查是否存在 base_list 数据
+            const listRow = await conn.get('base_list', { id: listObj.id });
+
+            // 插入或更新 base_list 数据
+            if (listRow) {
+                await conn.update('base_list', listObj);
+            } else {
+                await conn.query('INSERT IGNORE INTO base_list SET ?', [listObj]);
+            }
+
+            await conn.commit(); // 提交事务
+            return { success: true };
+        } catch (err) {
+            await conn.rollback(); // 回滚事务
+            return { success: false, error: err };
         }
-        return {Sddetail:res1.affectedRows,Rcvdetail:res2.affectedRows,listdetail:res3.affectedRows}    
-        // if (dataid) {
-        //     var res1 = await this.app.mysql.update('base_customer',SdObj);
-        //     var res2 = await this.app.mysql.update('base_customer',RcvObj);
-        //     if (res1.affectedRows == 1 & res2.affectedRows == 1) {
-        //         var res3 = await this.app.mysql.update('base_list',listObj);
-        //     } else{
-        //         return {Sddetail:res1.affectedRows,Rcvdetail:res2.affectedRows}
-        //     }
-        // }else{
-        //     var res1 = await this.app.mysql.insert('base_customer',SdObj);
-        //     var res2 = await this.app.mysql.insert('base_customer',RcvObj);
-        //     if (res1.affectedRows == 1 & res2.affectedRows == 1) {
-        //         var res3 = await this.app.mysql.insert('base_list',listObj);
-        //     } else {
-        //         return {Sddetail:res1.affectedRows,Rcvdetail:res2.affectedRows}
-        //     }
-        // }
-        return res3;
     }
     
     // 分页查询订单数据

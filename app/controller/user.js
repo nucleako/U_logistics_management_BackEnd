@@ -128,25 +128,42 @@ class UserController extends Controller {
 
 
 	/**
-	 * @router get /user/deleteById/{id}
+	 * @router get /user/deleteUser/{id}
 	 * @summary 删除一条用户数据
 	 * @description 删除一条用户数据
 	 * @request path number *id 用户id
 	 * @apikey
 	 */
-	async deleteById() {
-	const { ctx } = this;
-	const id = ctx.params.id;
-	console.log(11111111111);
-	console.log(ctx.params);
-	// 调用 service 层的方法删除数据
-	const result = await ctx.service.user.deleteById(id);
-	if (result && result.affectedRows !== 0) {
-		ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
-	} else {
-		ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+	async deleteUser() {
+		const { ctx } = this;
+		const id = ctx.params.id;
+		console.log(11111111111);
+		console.log(ctx.params);
+		// 调用 service 层的方法删除数据
+		const result = await ctx.service.user.deleteById(id);
+		if (result && result.affectedRows !== 0) {
+			ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
+		} else {
+			ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+		}
 	}
-	}
+
+  /**
+   * @Router get /user/deleteById
+   * @Summary 删除！
+   * @Description 修改所有数据！！！
+   * @Request query number id
+   */
+  async deleteById(){
+    const { ctx } = this;//context可以获取请求对象、响应对象
+    const result = await ctx.service.user.deleteById(ctx.query.id);//promise
+    if (result && result.affectedRows !== 0) {
+      ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
+    } else {
+      ctx.status = 500;
+      ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+    }
+  }
 }
 
 
