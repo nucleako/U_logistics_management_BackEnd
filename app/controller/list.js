@@ -49,23 +49,25 @@ class ListController extends Controller {
    * @Request query string OrderPrice  金额
    * @Request query number OrderStatus 订单状态
    * @Request query string OrderDate 下单时间  
+   * 
    * @Request query number SdCustomerID 发件人id   
    * @Request query string SdCustomerName 发件人姓名
    * @Request query number SdCustomerPhone 发件人手机号  
    * @Request query number SdCustomerGender 发件人性别  
    * @Request query string SdCustomerCompanyName 发件公司  
-   * @Request query string SdCustomerAddress 发件地址  
+   * @Request query string SdCustomerAddress 发件地址
+   *   
    * @Request query number RcvCustomerID 收件人id  
    * @Request query string RcvCustomerName 收件人姓名
    * @Request query number RcvCustomerPhone 收件人手机号  
-   * @Request query number SdCustomerGender 收件人性别   
+   * @Request query number RcvCustomerGender 收件人性别   
    * @Request query string RcvCustomerCompanyName 收件公司  
    * @Request query string RcvCustomerAddress 收件地址  
    * @apikey
    */
   async saveOrUpdateList(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.list.saveOrUpdateList(ctx.query);//promise
+    const data = await ctx.service.list.saveOrUpdateList(ctx.request.body);//promise
     
     if (data.success == true) {
       ctx.body={code:200,message:'success',data,time:new Date().getTime()};

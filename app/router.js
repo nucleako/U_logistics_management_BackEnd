@@ -9,49 +9,49 @@ module.exports = app => {
   router.get('/', controller.home.index);
   router.post('/user/login', controller.user.login);
   router.post('/user/logout', controller.user.logout);
-  router.get('/user/findAll', controller.user.findAll);
-  router.get('/user/findUserById',controller.user.findUserById);
+  router.get('/user/findAll', jwt,controller.user.findAll);
+  router.get('/user/findUserById',jwt,controller.user.findUserById);
   router.get('/user/pageQuery',controller.user.pageQuery);
-  router.post('/user/saveOrUpdate', controller.user.saveOrUpdate);
-  router.get('/user/deleteUser/:id', controller.user.deleteUser);
-  router.get('/user/deleteById', controller.user.deleteById);
+  router.post('/user/saveOrUpdate',jwt, controller.user.saveOrUpdate);
+  router.get('/user/deleteUser/:id',jwt, controller.user.deleteUser);
+  router.get('/user/deleteById', jwt,controller.user.deleteById);
   
-  router.get('/customer/findAll', controller.customer.findAll);
-  router.get('/customer/findCustomerById',controller.customer.findCustomerById);
+  router.get('/customer/findAll', jwt,controller.customer.findAll);
+  router.get('/customer/findCustomerById',jwt,controller.customer.findCustomerById);
   router.get('/customer/pageQuery',controller.customer.pageQuery);
-  router.post('/customer/saveOrUpdate', controller.customer.saveOrUpdate);
-  router.get('/customer/deleteCustomer/:id', controller.customer.deleteCustomer);
-  router.get('/customer/deleteById', controller.customer.deleteById);
+  router.post('/customer/saveOrUpdate', jwt,controller.customer.saveOrUpdate);
+  router.get('/customer/deleteCustomer/:id', jwt,controller.customer.deleteCustomer);
+  router.get('/customer/deleteById', jwt,controller.customer.deleteById);
 
-  router.get('/bill/findAll', controller.bill.findAll);
-  router.get('/bill/findBillById',controller.bill.findBillById);
-  router.get('/bill/pageQuery',controller.bill.pageQuery);
-  router.post('/bill/saveOrUpdate', controller.bill.saveOrUpdate);
-  router.get('/bill/deleteBill/:id', controller.bill.deleteBill);
-  router.get('/bill/deleteById', controller.bill.deleteById);
+  router.get('/bill/findAll', jwt,controller.bill.findAll);
+  router.get('/bill/findBillById',jwt,controller.bill.findBillById);
+  router.get('/bill/pageQuery',jwt,controller.bill.pageQuery);
+  router.post('/bill/saveOrUpdate', jwt,controller.bill.saveOrUpdate);
+  router.get('/bill/deleteBill/:id', jwt,controller.bill.deleteBill);
+  router.get('/bill/deleteById', jwt,controller.bill.deleteById);
 
-  router.get('/carrier/findAll', controller.carrier.findAll);
-  router.get('/carrier/findCarrierById',controller.carrier.findCarrierById);
-  router.get('/carrier/pageQuery',controller.carrier.pageQuery);
-  router.post('/carrier/saveOrUpdate', controller.carrier.saveOrUpdate);
-  router.get('/carrier/deleteCarrier/:id', controller.carrier.deleteCarrier);
-  router.get('/carrier/deleteById', controller.carrier.deleteById);
+  router.get('/carrier/findAll', jwt,controller.carrier.findAll);
+  router.get('/carrier/findCarrierById',jwt,controller.carrier.findCarrierById);
+  router.get('/carrier/pageQuery',jwt,controller.carrier.pageQuery);
+  router.post('/carrier/saveOrUpdate',jwt, controller.carrier.saveOrUpdate);
+  router.get('/carrier/deleteCarrier/:id',jwt, controller.carrier.deleteCarrier);
+  router.get('/carrier/deleteById', jwt,controller.carrier.deleteById);
 
-  router.get('/list/findAll', controller.list.findAll);
-  router.get('/list/findListById', controller.list.findListById);
-  router.get('/list/pageQuery',controller.list.pageQuery);
-  router.post('/list/saveOrUpdateList', controller.list.saveOrUpdateList);
-  router.get('/list/deleteList', controller.list.deleteList);
+  router.get('/list/findAll',jwt, controller.list.findAll);
+  router.get('/list/findListById',jwt, controller.list.findListById);
+  router.get('/list/pageQuery',jwt,controller.list.pageQuery);
+  router.post('/list/saveOrUpdateList', jwt,controller.list.saveOrUpdateList);
+  router.get('/list/deleteList', jwt,controller.list.deleteList);
   
-  router.get('/trans/findAll', controller.trans.findAll);
-  router.get('/trans/findOneTrans', controller.trans.findOneTrans);
-  router.get('/trans/pageQuery',controller.trans.pageQuery);
-  router.post('/trans/saveOrUpdateTrans', controller.trans.saveOrUpdateTrans);
-  router.get('/trans/deleteTrans', controller.trans.deleteTrans);
+  router.get('/trans/findAll', jwt,controller.trans.findAll);
+  router.get('/trans/findOneTrans', jwt,controller.trans.findOneTrans);
+  router.get('/trans/pageQuery',jwt,controller.trans.pageQuery);
+  router.post('/trans/saveOrUpdateTrans', jwt,controller.trans.saveOrUpdateTrans);
+  router.get('/trans/deleteTrans',jwt, controller.trans.deleteTrans);
   
   router.get('/stock/findAll', controller.stock.findAll);
-  router.get('/stock/findStockById', controller.list.findListById);
-  router.post('/stock/saveOrUpdateStock', controller.list.saveOrUpdateList);
+  router.get('/stock/findStockById',jwt, controller.list.findListById);
+  router.post('/stock/saveOrUpdateStock',jwt, controller.list.saveOrUpdateList);
 
   // router.get('/client/findAll',jwt,controller.client.findAll);
 };

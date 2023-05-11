@@ -32,10 +32,9 @@ class UserService extends Service{
 
     async findUserById(query){//查询员工逻辑并返回数据
         console.log(query);
-        // this.ctx.validate({
-        //     id: { type : 'Number' }
-        // })
+
         const res = await this.app.mysql.get('base_user',query);//获取数据
+        // res.roles = [res.roles]
         return res
     }
 

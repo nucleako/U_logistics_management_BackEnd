@@ -33,10 +33,14 @@ class UserController extends Controller {
      */
     async logout() {
       const { ctx } = this;
+	  console.log(ctx);
 	  this.ctx.cookies.set('token', null);
-      ctx.logout(); // 调用 ctx.logout() 方法清除当前 Session 中的用户信息将用户注销
+	  ctx.session = null;
+	  // 重定向到登录页面
+	  ctx.redirect('/login');
       ctx.status = 200;
       ctx.body = { message: 'User has been logged out' };
+	  
     }
 
 
@@ -71,7 +75,8 @@ class UserController extends Controller {
 		ctx.status = 404;
 	  }else{      
 		ctx.response.body = {message:'success',data,time:new Date().getTime()};    
-	  }	}
+	  }
+	}
 
 	/**
 	 * @tags 用户管理

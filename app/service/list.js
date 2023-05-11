@@ -61,7 +61,7 @@ class ListService extends Service{
             name:data.RcvCustomerName,
             phone:data.RcvCustomerPhone,
             addr:data.RcvCustomerAddress,
-            gender:data.SdCustomerGender,
+            gender:data.RcvCustomerGender,
             CompanyName:data.RcvCustomerCompanyName
         }
 
