@@ -11,6 +11,7 @@ module.exports = app => {
   router.post('/user/logout', controller.user.logout);
   router.get('/user/findAll', jwt,controller.user.findAll);
   router.get('/user/findUserById',jwt,controller.user.findUserById);
+  router.get('/user/findInfoByToken',jwt,controller.user.findInfoByToken);
   router.get('/user/pageQuery',controller.user.pageQuery);
   router.post('/user/saveOrUpdate',jwt, controller.user.saveOrUpdate);
   router.get('/user/deleteUser/:id',jwt, controller.user.deleteUser);

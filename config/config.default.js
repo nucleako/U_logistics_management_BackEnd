@@ -16,7 +16,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1676906890368_7755';
 
   // add your middleware config here
-  config.middleware = ['errorHandler'];
+  config.middleware = ['errorHandler',];
 
   // add your user config here
   const userConfig = {
@@ -56,6 +56,13 @@ module.exports = appInfo => {
 	jwt:{//token密钥
       secret:'888888'
     },
+
+  session:{
+    key: 'SESSION_ID',
+    maxAge: 24 * 3600 * 1000, // 1 天
+    httpOnly: true,
+    encrypt: true,
+  },
 
     swaggerdoc: {
       dirScanner: "./app/controller", // 配置⾃动扫描的控制器路径

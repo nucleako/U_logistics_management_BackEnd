@@ -79,6 +79,33 @@ class UserController extends Controller {
 	}
 
 	/**
+	 * @Router get /user/findInfoByToken
+	 * @Summary 根据认证token查询用户信息
+	 * @Description 仅返回一条内容
+	 * @Header Authorization 认证token
+	 * @apikey
+	 */
+	async findInfoByToken() {
+		const { ctx } = this;
+		console.log(ctx.request);
+
+		const token = ctx.headers.authorization ? ctx.headers.authorization.split(' ')[1] : ''; // 从请求头中获取 token
+		// console.log(token);
+		const decoded = this.app.jwt.verify(token, this.app.config.jwt.secret); // 解析 token，获取用户信息
+		console.log(decoded);
+		const data = await ctx.service.user.findUserById({username:decoded.username}); // 根据用户 id 查找用户信息
+	  
+		if (!data) {
+		ctx.body = { code: 404, message: 'No related information was found.', res, time: new Date().getTime() };
+		ctx.status = 404;
+		} else {
+		ctx.body = { message: 'success', data, time: new Date().getTime() };
+		}
+	}
+	
+  
+
+	/**
 	 * @tags 用户管理
 	 * @Router get /user/pageQuery
 	 * @Summary 分页查询用户数据

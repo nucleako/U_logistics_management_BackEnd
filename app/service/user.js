@@ -32,11 +32,31 @@ class UserService extends Service{
 
     async findUserById(query){//查询员工逻辑并返回数据
         console.log(query);
-
         const res = await this.app.mysql.get('base_user',query);//获取数据
-        // res.roles = [res.roles]
+        res.roles = [res.roles]
         return res
     }
+
+    async findInfoByToken(token, id) {
+        const user = await this.ctx.model.User.findOne({
+          where: {
+            id,
+          },
+        });
+      
+        if (!user) {
+          return null;
+        }
+      
+        // 验证token
+        const decoded = this.app.jwt.verify(token, this.app.config.jwt.secret);
+        if (decoded.id !== user.id) {
+          return null;
+        }
+      
+        return user;
+      }
+      
 
     async saveOrUpdate(data){
         const dataid = await this.app.mysql.get('base_user',{id:data.id});//获取数据

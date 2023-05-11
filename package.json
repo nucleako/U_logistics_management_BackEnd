@@ -13,6 +13,7 @@
     "egg-mysql": "^3.4.0",
     "egg-passport": "^2.1.1",
     "egg-scripts": "^2",
+    "egg-session": "^3.3.0",
     "egg-swagger-docs": "^2.3.5",
     "egg-validate": "^2.0.2"
   },
