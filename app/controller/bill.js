@@ -76,16 +76,12 @@ class BillController extends Controller {
    * @Router post /bill/saveOrUpdate
    * @Summary 新增或修改
    * @Description 添加或修改某一对账单数据
-   * @Request query number id id
-   * @Request query number OrderID 订单id
-   * @Request query string price  金额
-   * @Request query number state 订单状态
-   * @Request query string date 下单时间
+   * @Request body Bill  *body
    * @apikey
    */
   async saveOrUpdate(){
     const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.bill.saveOrUpdate(ctx.query);//promise
+    const data = await ctx.service.bill.saveOrUpdate(ctx.request.body);//promise
     
 		if (data && data.affectedRows !== 0) {
 			ctx.body={code:200,message:'success', data ,time:new Date().getTime()};

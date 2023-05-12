@@ -38,6 +38,7 @@ class UserController extends Controller {
 	  ctx.session = null;
 	  // 重定向到登录页面
 	  ctx.redirect('/login');
+	  console.log('user logout!');
       ctx.status = 200;
       ctx.body = { message: 'User has been logged out' };
 	  
@@ -140,20 +141,12 @@ class UserController extends Controller {
 	 * @Router post /user/saveOrUpdate
 	 * @Summary 新增或修改
 	 * @Description 添加或修改某一用户数据
-	 * @Request query number id 用户id
-	 * @Request query string username 用户名 	 
-	 * @Request query string password 密码 	 
-	 * @Request query string realname  真实姓名
-	 * @Request query string roles 身份
-	 * @Request query string introduction 简介  
- 	 * @Request query string avatar  头像信息
-	 * @Request query string gender 性别
-	 * @Request query number telephone 联系电话  
+  	 * @Request body user  *body
 	 * @apikey
 	 */
 	async saveOrUpdate(){
 		const { ctx } = this;//context可以获取请求对象、响应对象
-		const data = await ctx.service.user.saveOrUpdate(ctx.query);//promise
+		const data = await ctx.service.user.saveOrUpdate(ctx.request.body);//promise
 		ctx.body={code:200,message:'success',data,time:new Date().getTime()};
 
 		if (data && data.affectedRows !== 0) {

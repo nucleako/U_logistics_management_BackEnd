@@ -20,6 +20,7 @@ class CarrierService extends Service{
 
     async saveOrUpdate(data){
         const dataid = await this.app.mysql.get('base_carrier',{id:data.id});//获取数据
+        console.log(dataid);
         if (dataid) {
             var res = await this.app.mysql.update('base_carrier',data);//获取数据
         }else{

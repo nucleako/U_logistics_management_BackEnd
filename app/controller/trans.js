@@ -46,25 +46,12 @@ class TransController extends Controller {
    * @Router post /trans/saveOrUpdateTrans
    * @Summary 新增或修改
    * @Description 新增或修改一项数据
-   * @Request query number id 运单id
-   * @Request query number OrderID 订单id
-   * @Request query number CarrierId 承运商id
-   * @Request query string goodstype  货物类型
-   * @Request query number weight  货物重量
-   * @Request query string Origin 发货地
-   * @Request query string Destination 目的地  
-   * @Request query string SendName 发件人名  
-   * @Request query number SendPhone 发件人电话  
-   * @Request query string SendAddress 发件地址  
-   * @Request query string ReceiverName 收件人名  
-   * @Request query number ReceiverPhone 收件人电话  
-   * @Request query string ReceiverAddress 收件地址  
-   * @Request query string money 金额  
+   * @Request body trans  *body
    * @apikey
    */
   async saveOrUpdateTrans(){
     const { ctx } = this;
-    let data = await ctx.service.trans.saveOrUpdateTrans(ctx.query);
+    let data = await ctx.service.trans.saveOrUpdateTrans(ctx.request.body);
 
     if (data && data.affectedRows !== 0) {
 			ctx.body={code:200,message:'success', data ,time:new Date().getTime()};
