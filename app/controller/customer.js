@@ -1,0 +1,140 @@
+'use strict';
+
+const { Controller } = require('egg');
+
+/**
+ * @Controller CustomerController:客户模块
+ */
+
+class CustomerController extends Controller {
+
+  /**
+   * @Router get /customer/findAll
+   * @Summary 查询所有客户信息
+   * @apikey
+   */
+  async findAll() {
+    const { ctx } = this;//context可以获取请求对象、响应对象
+    // ctx.body = 'customer config successed';//响应体数据=》自动转json
+    // console.log(ctx.request.query);
+    const data = await ctx.service.customer.findAll();//promise
+    // console.log(data);
+    ctx.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+  }
+
+  /**
+   * @Router get /customer/findCustomerById
+   * @Summary 依据某条信息查询
+   * @Description 任意信息皆可、仅返回一条内容
+   * @Request query number id
+   * @apikey
+   */
+  async findCustomerById(){
+    const { ctx } = this;
+    const res = await ctx.service.customer.findCustomerById(ctx.query);//promise
+    var data =[res,]
+    if (!res) {
+      ctx.body = {code:404,message:'No related information was found.',res,time:new Date().getTime()};
+      ctx.status = 404;
+    }else{      
+      var data =[res,]
+      ctx.response.body = {message:'success',data,time:new Date().getTime()};    
+    }
+  }
+
+  /**
+  * @tags 客户管理
+  * @Router get /customer/pageQuery
+  * @Summary 分页查询客户数据
+  * @description 查询客户列表接口，支持分页和筛选条件
+  * @request query integer page 页码，默认为1
+  * @request query integer pageSize 每页显示数量，默认为10
+  * @param number page.query - 当前页数
+  * @param number pageSize.query - 每页显示的记录数
+  * @apikey
+  */
+
+  async pageQuery() {
+    const { ctx } = this;
+    const page = parseInt(ctx.query.page) || 1;
+    const pageSize = parseInt(ctx.query.pageSize) || 10;
+    const data = await ctx.service.customer.pageQuery(page, pageSize);
+    if (!data) {
+      ctx.body = { message:'No related information was found.',res,time:new Date().getTime()};
+      ctx.status = 404;
+    }else{      
+      ctx.response.body = { message: 'success', data, time: new Date().getTime() };
+    }
+  }
+  // async pageQuery(){
+  //   const { ctx } = this;
+  //   const { page, pageSize } = ctx.query;
+  //   const data = await ctx.service.customer.pageQuery(page, pageSize);//promise
+  //   ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+  // }
+
+  /**
+   * @Router post /customer/saveOrUpdate
+   * @Summary 新增或修改
+   * @Description 添加或修改某一客户数据
+   * @Request body customer  *body
+   * @apikey
+   */
+  async saveOrUpdate(){
+    const { ctx } = this;//context可以获取请求对象、响应对象
+    const data = await ctx.service.customer.saveOrUpdate(ctx.request.body);//promise
+    
+    if (data && data.affectedRows !== 0) {
+      ctx.body={code:200,message:'success',time:new Date().getTime()};
+    } else {
+      ctx.body = { code: 500, message: 'failed', time: new Date().getTime() };
+    }
+  }
+
+
+  /**
+     * @router get /customer/deleteCustomer/{id}
+     * @summary 删除一条客户数据
+     * @description 删除一条客户数据
+     * @request path number *id 客户id
+     * @apikey
+     */
+  async deleteCustomer() {
+    const { ctx } = this;
+    const id = ctx.params.id;
+    console.log(ctx.params);
+    // 调用 service 层的方法删除数据
+    const result = await ctx.service.customer.deleteById(id);
+    console.log(result);
+    if (result && result.affectedRows !== 0) {
+      ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
+    } else {
+      ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+    }
+  }
+
+  /**
+   * @Router get /customer/deleteById
+   * @Summary 删除！
+   * @Description 删除一条数据
+   * @Request query number id
+   */
+      async deleteById(){
+        const { ctx } = this;//context可以获取请求对象、响应对象
+        const result = await ctx.service.customer.deleteById(ctx.query.id);//promise
+        console.log(result);
+        if (result == 1451) {
+          ctx.status = 500;
+          ctx.body = { code: 500, message: '删除失败,该项可能被订单表所引用，无法删除',result, time: new Date().getTime() };
+        } else if (result && result.affectedRows != 0) {
+          ctx.body = { code: 200, message: '删除成功',result, time: new Date().getTime() };
+        } else {
+          ctx.status = 500;
+          ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+        }
+      }
+}
+
+
+
+module.exports = CustomerController;
