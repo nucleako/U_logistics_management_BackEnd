@@ -32,6 +32,3 @@ swaggerUI展示
 [更多捐赠方式]()
 
 [Paypal Me]()
-
-[Buy me a coffee]()
-#### 如果你觉得本系统不错，欢迎star
