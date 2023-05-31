@@ -8,61 +8,61 @@ const { Controller } = require('egg');
  */
 class StockController extends Controller {
 
-  /**
+	/**
    * @Router get /stock/findAll
    * @Summary 查询所有库存信息
    * @apikey
    */
-  async findAll() {
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    // ctx.body = 'Stock config successed';//响应体数据=》自动转json
-    // console.log(ctx.request.query);
-    const data = await ctx.service.stock.findAll();//promise
-    // console.log(data);
-    ctx.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
-  }
+	async findAll() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		// ctx.body = 'Stock config successed';//响应体数据=》自动转json
+		// console.log(ctx.request.query);
+		const data = await ctx.service.stock.findAll();// promise
+		// console.log(data);
+		ctx.body = { code: 200, message: 'success', data, time: new Date().getTime() };// 响应体数据=》自动转json
+	}
 
-  /**
+	/**
    * @Router get /stock/findStockById
    * @Summary 依据某条信息查询
    * @Description 任意信息皆可、仅返回一条内容
    * @Request query number id
    * @apikey
    */
-  async findStockById(){
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    const res = await ctx.service.stock.findStockById(ctx.query);//promise
-    var data =[res,]
-    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
-  }
+	async findStockById() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		const res = await ctx.service.stock.findStockById(ctx.query);// promise
+		const data = [ res ];
+		ctx.response.body = { code: 200, message: 'success', data, time: new Date().getTime() };// 响应体数据=》自动转json
+	}
 
-  /**
+	/**
    * @Router post /stock/saveOrUpdateStock
    * @Summary 新增或修改
    * @Description 新增一条数据或修改某一项已有数据
    * @apikey
    */
-  async saveOrUpdateStock(){
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    ctx.validate({
-      name: { type : 'string' }
-    })
-    console.log(ctx.request.body);
-    const data = await ctx.service.stock.saveOrUpdateStock(ctx.request.body);//promise
-    ctx.body={code:200,message:'success',data,time:new Date().getTime()};
-  }
-  
-  /**
+	async saveOrUpdateStock() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		ctx.validate({
+			name: { type: 'string' },
+		});
+		console.log(ctx.request.body);
+		const data = await ctx.service.stock.saveOrUpdateStock(ctx.request.body);// promise
+		ctx.body = { code: 200, message: 'success', data, time: new Date().getTime() };
+	}
+
+	/**
    * @Router delete /stock/deleteStock
    * @Summary 删除！
    * @Description 修改所有数据！！！
    */
-  async deleteStock(){
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.stock.deleteStock(ctx.query);//promise
-    console.log(ctx.query);
-    ctx.response.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
-  }
+	async deleteStock() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		const data = await ctx.service.stock.deleteStock(ctx.query);// promise
+		console.log(ctx.query);
+		ctx.response.body = { code: 200, message: 'success', data, time: new Date().getTime() };// 响应体数据=》自动转json
+	}
 }
 
 module.exports = StockController;

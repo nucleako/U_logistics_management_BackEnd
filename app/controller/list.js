@@ -8,66 +8,66 @@ const { Controller } = require('egg');
  */
 class ListController extends Controller {
 
-  /**
+	/**
    * @Router get /list/findAll
    * @Summary 查询所有订单信息
    * @apikey
    */
-  async findAll() {
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    // ctx.body = 'list config successed';//响应体数据=》自动转json
-    // console.log(ctx.request.query);
-    const data = await ctx.service.list.findAll();//promise
+	async findAll() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		// ctx.body = 'list config successed';//响应体数据=》自动转json
+		// console.log(ctx.request.query);
+		const data = await ctx.service.list.findAll();// promise
 
-    ctx.body = {message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
-  }
+		ctx.body = { message: 'success', data, time: new Date().getTime() };// 响应体数据=》自动转json
+	}
 
-  /**
+	/**
    * @Router get /list/findListById
    * @Summary 依据某条信息查询
    * @Description 任意信息皆可、仅返回一条内容
    * @Request query number id
-   * @apikey   
+   * @apikey
    */
-  async findListById(){
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    const res = await ctx.service.list.findListById(ctx.query);//promise
-    if (!res) {
-      ctx.body = {code:404,message:'No related information was found.',res,time:new Date().getTime()};
-      ctx.status = 404;
-    }else{      
-      var data =[res,]
-      ctx.response.body = {message:'success',data,time:new Date().getTime()};    
-    }
-  }
+	async findListById() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		const res = await ctx.service.list.findListById(ctx.query);// promise
+		if (!res) {
+			ctx.body = { code: 404, message: 'No related information was found.', res, time: new Date().getTime() };
+			ctx.status = 404;
+		} else {
+			const data = [ res ];
+			ctx.response.body = { message: 'success', data, time: new Date().getTime() };
+		}
+	}
 
-  /**
+	/**
    * @Router post /list/saveOrUpdateList
    * @Summary 新增或修改
    * @Description 新增一条数据或修改某一项已有数据
    * @Request body list  *body
    * @apikey
    */
-  async saveOrUpdateList(){
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    const data = await ctx.service.list.saveOrUpdateList(ctx.request.body);//promise
-    
-    // if (data.success == true) {
-    //   ctx.body={code:200,message:'success',data,time:new Date().getTime()};
-    // } else {
-    //   ctx.body = {code:500,message:'saveOrUpdate Failed.',data,time:new Date().getTime()};
-    //   ctx.status = 500;
-    // }
+	async saveOrUpdateList() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		const data = await ctx.service.list.saveOrUpdateList(ctx.request.body);// promise
 
-    if (data && data.affectedRows !== 0) {
-			ctx.body={code:200,message:'success', data ,time:new Date().getTime()};
+		// if (data.success == true) {
+		//   ctx.body={code:200,message:'success',data,time:new Date().getTime()};
+		// } else {
+		//   ctx.body = {code:500,message:'saveOrUpdate Failed.',data,time:new Date().getTime()};
+		//   ctx.status = 500;
+		// }
+
+		if (data && data.affectedRows !== 0) {
+			ctx.body = { code: 200, message: 'success', data, time: new Date().getTime() };
 		} else {
-			ctx.body = { code: 500, message: 'failed', data ,time: new Date().getTime() };
+			ctx.body = { code: 500, message: 'failed', data, time: new Date().getTime() };
 			ctx.status = 500;
 		}
-  }
-  
-  /**
+	}
+
+	/**
   * @tags 订单管理
   * @Router get /list/pageQuery
   * @Summary 分页查询订单数据
@@ -79,35 +79,35 @@ class ListController extends Controller {
   * @apikey
   */
 
-  async pageQuery() {
-    const { ctx } = this;
-    const page = parseInt(ctx.query.page) || 1;
-    const pageSize = parseInt(ctx.query.pageSize) || 10;
-    const data = await ctx.service.list.pageQuery(page, pageSize);
-    if (!data) {
-      ctx.body = { message:'No related information was found.',res,time:new Date().getTime()};
-      ctx.status = 404;
-    }else{      
-      ctx.response.body = { message: 'success', data, time: new Date().getTime() };
-    }
-  }
+	async pageQuery() {
+		const { ctx } = this;
+		const page = parseInt(ctx.query.page) || 1;
+		const pageSize = parseInt(ctx.query.pageSize) || 10;
+		const data = await ctx.service.list.pageQuery(page, pageSize);
+		if (!data) {
+			ctx.body = { message: 'No related information was found.', res, time: new Date().getTime() };
+			ctx.status = 404;
+		} else {
+			ctx.response.body = { message: 'success', data, time: new Date().getTime() };
+		}
+	}
 
-  /**
+	/**
    * @Router get /list/deleteList
    * @Summary 删除！
    * @Description 删除一条数据
    * @Request query number id
    */
-  async deleteList(){
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    const result = await ctx.service.list.deleteList(ctx.query.id);//promise
-    if (result && result.affectedRows !== 0) {
-      ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
-    } else {
-      ctx.status = 500;
-      ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
-    }
-  }
+	async deleteList() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		const result = await ctx.service.list.deleteList(ctx.query.id);// promise
+		if (result && result.affectedRows !== 0) {
+			ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
+		} else {
+			ctx.status = 500;
+			ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+		}
+	}
 }
 
 module.exports = ListController;

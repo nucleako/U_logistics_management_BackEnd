@@ -1,4 +1,15 @@
 {
   "extends": "eslint-config-egg",
-  "root": true
+  "root": true,
+  "rules": {
+    "indent": ["error", "tab"]
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        "indent": ["error", "tab"]
+      }
+    }
+  ]
 }

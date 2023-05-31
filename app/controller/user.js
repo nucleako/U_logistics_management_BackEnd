@@ -8,41 +8,41 @@ const { Controller } = require('egg');
 
 class UserController extends Controller {
 
-    /**
+	/**
      * @Router post /user/login
      * @Summary 登录接口
      * @Description 用户名密码
      * @Request body login  *body
      */
-    async login(){
-      const { ctx } = this;
-      console.log(ctx.request.body);
-      const token = await ctx.service.user.login(ctx.request.body);
-      if (!token) {
-        ctx.body = {code:401,message:'No authorization token was found',token,time:new Date().getTime()};
-        ctx.status = 401;
-      }else{      
-        ctx.body = {code:200,message:'login success',token,time:new Date().getTime()};//响应体数据=》自动转json
-      }
-    }  
+	async login() {
+		const { ctx } = this;
+		console.log(ctx.request.body);
+		const token = await ctx.service.user.login(ctx.request.body);
+		if (!token) {
+			ctx.body = { code: 401, message: 'No authorization token was found', token, time: new Date().getTime() };
+			ctx.status = 401;
+		} else {
+			ctx.body = { code: 200, message: 'login success', token, time: new Date().getTime() };// 响应体数据=》自动转json
+		}
+	}
 
-    /**
+	/**
      * @Router post /user/logout
      * @Summary 登出接口
      * @Description 登出
      */
-    async logout() {
-      const { ctx } = this;
+	async logout() {
+		const { ctx } = this;
 	  console.log(ctx);
 	  this.ctx.cookies.set('token', null);
 	  ctx.session = null;
 	  // 重定向到登录页面
 	  ctx.redirect('/login');
 	  console.log('user logout!');
-      ctx.status = 200;
-      ctx.body = { message: 'User has been logged out' };
-	  
-    }
+		ctx.status = 200;
+		ctx.body = { message: 'User has been logged out' };
+
+	}
 
 
 	/**
@@ -51,12 +51,12 @@ class UserController extends Controller {
 	 * @apikey
 	 */
 	async findAll() {
-	const { ctx } = this;//context可以获取请求对象、响应对象
-	// ctx.body = 'user config successed';//响应体数据=》自动转json
-	// console.log(ctx.request.query);
-	const data = await ctx.service.user.findAll();//promise
-	// console.log(data);
-	ctx.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		// ctx.body = 'user config successed';//响应体数据=》自动转json
+		// console.log(ctx.request.query);
+		const data = await ctx.service.user.findAll();// promise
+		// console.log(data);
+		ctx.body = { code: 200, message: 'success', data, time: new Date().getTime() };// 响应体数据=》自动转json
 	}
 
 	/**
@@ -68,14 +68,14 @@ class UserController extends Controller {
 	 * @Request query number gender
 	 * @apikey
 	 */
-	async findUserById(){
-	const { ctx } = this;
-	const data = await ctx.service.user.findUserById(ctx.query);//promise
-    if (!data) {
-		ctx.body = {code:404,message:'No related information was found.',res,time:new Date().getTime()};
-		ctx.status = 404;
-	  }else{      
-		ctx.response.body = {message:'success',data,time:new Date().getTime()};    
+	async findUserById() {
+		const { ctx } = this;
+		const data = await ctx.service.user.findUserById(ctx.query);// promise
+		if (!data) {
+			ctx.body = { code: 404, message: 'No related information was found.', res, time: new Date().getTime() };
+			ctx.status = 404;
+	  } else {
+			ctx.response.body = { message: 'success', data, time: new Date().getTime() };
 	  }
 	}
 
@@ -94,17 +94,16 @@ class UserController extends Controller {
 		// console.log(token);
 		const decoded = this.app.jwt.verify(token, this.app.config.jwt.secret); // 解析 token，获取用户信息
 		console.log(decoded);
-		const data = await ctx.service.user.findUserById({username:decoded.username}); // 根据用户 id 查找用户信息
-	  
+		const data = await ctx.service.user.findUserById({ username: decoded.username }); // 根据用户 id 查找用户信息
+
 		if (!data) {
-		ctx.body = { code: 404, message: 'No related information was found.', res, time: new Date().getTime() };
-		ctx.status = 404;
+			ctx.body = { code: 404, message: 'No related information was found.', res, time: new Date().getTime() };
+			ctx.status = 404;
 		} else {
-		ctx.body = { message: 'success', data, time: new Date().getTime() };
+			ctx.body = { message: 'success', data, time: new Date().getTime() };
 		}
 	}
-	
-  
+
 
 	/**
 	 * @tags 用户管理
@@ -119,15 +118,15 @@ class UserController extends Controller {
 	 */
 
 	async pageQuery() {
-	const { ctx } = this;
-	const page = parseInt(ctx.query.page) || 1;
-	const pageSize = parseInt(ctx.query.pageSize) || 10;
-	const data = await ctx.service.user.pageQuery(page, pageSize);
-    if (!data) {
-		ctx.body = { message:'No related information was found.',res,time:new Date().getTime()};
-		ctx.status = 404;
-	  }else{      
-		ctx.response.body = { message: 'success', data, time: new Date().getTime() };
+		const { ctx } = this;
+		const page = parseInt(ctx.query.page) || 1;
+		const pageSize = parseInt(ctx.query.pageSize) || 10;
+		const data = await ctx.service.user.pageQuery(page, pageSize);
+		if (!data) {
+			ctx.body = { message: 'No related information was found.', res, time: new Date().getTime() };
+			ctx.status = 404;
+	  } else {
+			ctx.response.body = { message: 'success', data, time: new Date().getTime() };
 	  }
 	}
 	// async pageQuery(){
@@ -144,19 +143,18 @@ class UserController extends Controller {
   	 * @Request body user  *body
 	 * @apikey
 	 */
-	async saveOrUpdate(){
-		const { ctx } = this;//context可以获取请求对象、响应对象
-		const data = await ctx.service.user.saveOrUpdate(ctx.request.body);//promise
-		ctx.body={code:200,message:'success',data,time:new Date().getTime()};
+	async saveOrUpdate() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		const data = await ctx.service.user.saveOrUpdate(ctx.request.body);// promise
+		ctx.body = { code: 200, message: 'success', data, time: new Date().getTime() };
 
 		if (data && data.affectedRows !== 0) {
-			ctx.body={code:200,message:'success', data ,time:new Date().getTime()};
+			ctx.body = { code: 200, message: 'success', data, time: new Date().getTime() };
 		} else {
-			ctx.body = { code: 500, message: 'failed', data ,time: new Date().getTime() };
+			ctx.body = { code: 500, message: 'failed', data, time: new Date().getTime() };
 			ctx.status = 500;
 		}
 	}
-
 
 
 	/**
@@ -180,24 +178,23 @@ class UserController extends Controller {
 		}
 	}
 
-  /**
+	/**
    * @Router get /user/deleteById
    * @Summary 删除！
    * @Description 删除一条数据
    * @Request query number id
    */
-  async deleteById(){
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    const result = await ctx.service.user.deleteById(ctx.query.id);//promise
-    if (result && result.affectedRows !== 0) {
-      ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
-    } else {
-      ctx.status = 500;
-      ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
-    }
-  }
+	async deleteById() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		const result = await ctx.service.user.deleteById(ctx.query.id);// promise
+		if (result && result.affectedRows !== 0) {
+			ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
+		} else {
+			ctx.status = 500;
+			ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+		}
+	}
 }
-
 
 
 module.exports = UserController;

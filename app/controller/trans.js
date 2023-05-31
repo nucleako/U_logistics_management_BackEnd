@@ -8,60 +8,60 @@ const { Controller } = require('egg');
  */
 class TransController extends Controller {
 
-  /**
+	/**
    * @Router get /trans/findAll
    * @Summary 查询所有运单信息
    * @apikey
    */
-  async findAll() {
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    // ctx.body = 'trans config successed';//响应体数据=》自动转json
-    // console.log(ctx.request.query);
-    const data = await ctx.service.trans.findAll();//promise
-    ctx.body = {code:200,message:'success',data,time:new Date().getTime()};//响应体数据=》自动转json
-  }
+	async findAll() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		// ctx.body = 'trans config successed';//响应体数据=》自动转json
+		// console.log(ctx.request.query);
+		const data = await ctx.service.trans.findAll();// promise
+		ctx.body = { code: 200, message: 'success', data, time: new Date().getTime() };// 响应体数据=》自动转json
+	}
 
-  /**
+	/**
    * @Router get /trans/findOneTrans
    * @Summary 依据某条信息查询
    * @Description 任意信息皆可、仅返回一条内容
    * @Request query number id
    * @Request query number OrderID
    * @Request query number CarrierId
-   * @apikey   
+   * @apikey
    */
-  async findOneTrans(){
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    const res = await ctx.service.trans.findOneTrans(ctx.query);//promise
-    if (!res) {
-      ctx.body = {code:404,message:'No related information was found.',res,time:new Date().getTime()};
-      ctx.status = 404;
-    }else{      
-      var data =[res,]
-      ctx.response.body = {message:'success',data,time:new Date().getTime()};    
-    }
-  }
+	async findOneTrans() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		const res = await ctx.service.trans.findOneTrans(ctx.query);// promise
+		if (!res) {
+			ctx.body = { code: 404, message: 'No related information was found.', res, time: new Date().getTime() };
+			ctx.status = 404;
+		} else {
+			const data = [ res ];
+			ctx.response.body = { message: 'success', data, time: new Date().getTime() };
+		}
+	}
 
-  /**
+	/**
    * @Router post /trans/saveOrUpdateTrans
    * @Summary 新增或修改
    * @Description 新增或修改一项数据
    * @Request body trans  *body
    * @apikey
    */
-  async saveOrUpdateTrans(){
-    const { ctx } = this;
-    let data = await ctx.service.trans.saveOrUpdateTrans(ctx.request.body);
+	async saveOrUpdateTrans() {
+		const { ctx } = this;
+		const data = await ctx.service.trans.saveOrUpdateTrans(ctx.request.body);
 
-    if (data && data.affectedRows !== 0) {
-			ctx.body={code:200,message:'success', data ,time:new Date().getTime()};
+		if (data && data.affectedRows !== 0) {
+			ctx.body = { code: 200, message: 'success', data, time: new Date().getTime() };
 		} else {
-			ctx.body = { code: 500, message: 'failed', data ,time: new Date().getTime() };
+			ctx.body = { code: 500, message: 'failed', data, time: new Date().getTime() };
 			ctx.status = 500;
 		}
-  }
-  
-  /**
+	}
+
+	/**
   * @tags 运单管理
   * @Router get /trans/pageQuery
   * @Summary 分页查询运单数据
@@ -73,34 +73,34 @@ class TransController extends Controller {
   * @apikey
   */
 
-  async pageQuery() {
-    const { ctx } = this;
-    const page = parseInt(ctx.query.page) || 1;
-    const pageSize = parseInt(ctx.query.pageSize) || 10;
-    const data = await ctx.service.trans.pageQuery(page, pageSize);
-    if (!data) {
-      ctx.body = { message:'No related information was found.',res,time:new Date().getTime()};
-      ctx.status = 404;
-    }else{      
-      ctx.response.body = { message: 'success', data, time: new Date().getTime() };
-    }  
-  }
+	async pageQuery() {
+		const { ctx } = this;
+		const page = parseInt(ctx.query.page) || 1;
+		const pageSize = parseInt(ctx.query.pageSize) || 10;
+		const data = await ctx.service.trans.pageQuery(page, pageSize);
+		if (!data) {
+			ctx.body = { message: 'No related information was found.', res, time: new Date().getTime() };
+			ctx.status = 404;
+		} else {
+			ctx.response.body = { message: 'success', data, time: new Date().getTime() };
+		}
+	}
 
-  /**
+	/**
    * @Router get /trans/deleteTrans
    * @Summary 删除！
    * @Description 删除所有数据！！！
    * @Request query number id
    */
-  async deleteTrans(){
-    const { ctx } = this;//context可以获取请求对象、响应对象
-    const result = await ctx.service.trans.deleteTrans(ctx.query.id);//promise
-    if (result && result.affectedRows !== 0) {
-      ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
-    } else {
-      ctx.status = 500;
-      ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
-    }
-  }
+	async deleteTrans() {
+		const { ctx } = this;// context可以获取请求对象、响应对象
+		const result = await ctx.service.trans.deleteTrans(ctx.query.id);// promise
+		if (result && result.affectedRows !== 0) {
+			ctx.body = { code: 200, message: '删除成功', time: new Date().getTime() };
+		} else {
+			ctx.status = 500;
+			ctx.body = { code: 500, message: '删除失败', time: new Date().getTime() };
+		}
+	}
 }
 module.exports = TransController;

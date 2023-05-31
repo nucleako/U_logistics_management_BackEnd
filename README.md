@@ -10,7 +10,7 @@ U_logistics物流管理系统的后端文件
 
 本系统采用JavaScript语言，EGG框架编撰，代码简单易懂，采用jwt验证登录
 
-swaggerUI展示
+[swaggerUI展示](http://127.0.0.1:7001/swagger-ui.html)
 
 #### 安装教程
 
